@@ -20,14 +20,7 @@ pipeline {
     }
 
     stages {
-        stage('Clean') {
-            steps {
-                sh 'mvn -B clean'
-                sh 'rm -rf protoc'
-            }
-        }
-
-        stage("Build") {
+         stage("Build") {
             when {
                 branch "master"
             }
