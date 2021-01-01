@@ -18,7 +18,7 @@ install_protoc() {
 build_java() {
   mkdir -p src/main/proto
   cp -f schema/*.proto src/main/proto
-  mvn compile
+  mvn package
 }
 
 install_protoc
