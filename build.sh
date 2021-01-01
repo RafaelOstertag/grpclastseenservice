@@ -2,24 +2,23 @@
 
 set -eu
 
-PROTOC_VERSION=3.10.1
+PROTOC_VERSION=3.14.0
 
 install_protoc() {
-    if [ -d protoc ]
-    then
-	    return 0
-    fi
+  if [ -d protoc ]; then
+    return 0
+  fi
 
-    mkdir protoc
+  mkdir protoc
 
-    curl -Lo /tmp/protoc.zip "https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-linux-x86_64.zip"
-    unzip /tmp/protoc.zip -d protoc
+  curl -Lo /tmp/protoc.zip "https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-linux-x86_64.zip"
+  unzip /tmp/protoc.zip -d protoc
 }
 
 build_java() {
-    mkdir -p src/main/proto
-    cp -f schema/*.proto src/main/proto
-    mvn compile
+  mkdir -p src/main/proto
+  cp -f schema/*.proto src/main/proto
+  mvn compile
 }
 
 install_protoc
