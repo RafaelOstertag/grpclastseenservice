@@ -7,9 +7,14 @@ workflows:
   build-any-branch:
     jobs:
       - c/maven-build-and-test:
+          pre-steps:
+            - run:
+                name: Create sources
+                run: ./build.sh
           name: build-and-test
           sonar-project-key: "not-used"
           no-sonar: true
+          executor: c/java11-build-amd64-machine
           context:
             - repository-read
       - c/maven-deploy-artifacts:
