@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  c: rafaelostertag/common-orb@1.17.0
+  c: rafaelostertag/common-orb@1.18.0
 
 workflows:
   build-any-branch:
@@ -10,6 +10,13 @@ workflows:
           name: build-and-test
           sonar-project-key: "not-used"
           no-sonar: true
+          no-checkout: true
+          executor: c/java11-build-amd64-machine
+          pre-steps:
+            - checkout
+            - run:
+                name: Create sources
+                command: ./build.sh
           context:
             - repository-read
       - c/maven-deploy-artifacts:
@@ -22,17 +29,3 @@ workflows:
             - build-and-test
           context:
             - maven-repository-write
-
-  daily-dependency-check:
-    triggers:
-      - schedule:
-          cron: "21 4 * * *"
-          filters:
-            branches:
-              only:
-                - master
-                - develop
-    jobs:
-      - c/maven-dependency-check:
-          context:
-            - repository-read
